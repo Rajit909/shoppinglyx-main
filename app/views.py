@@ -1,10 +1,3 @@
-from calendar import c
-from functools import total_ordering
-from gettext import Catalog
-from itertools import product
-from lib2to3.pgen2.token import OP
-from re import U
-from unicodedata import category
 from django.shortcuts import redirect, render
 from django.views import View
 from .models import Customer,Product,Cart,OrderPlaced
