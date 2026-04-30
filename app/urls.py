@@ -21,15 +21,16 @@ urlpatterns = [
     path('profile/', views.ProfileView.as_view(), name='profile'),
     path('address/', views.address, name='address'),
     path('orders/', views.orders, name='orders'),
-    path('changepassword/', views.change_password, name='changepassword'),
     path('mobile/', views.mobile, name='mobile'),
+    path('mobile/<slug:data>', views.mobile, name='mobiledata'),
+    path('category/<slug:code>', views.category, name='category'),
 
 
 
-    path('accounts/login',auth_views.LoginView.as_view(template_name='app/login.html',authentication_form=LoginForm),name='login'),
+    path('accounts/login/',auth_views.LoginView.as_view(template_name='app/login.html',authentication_form=LoginForm),name='login'),
     path('logout/',auth_views.LogoutView.as_view(next_page='login'),name='logout'),
    
-    path('passwordchange/',auth_views.PasswordChangeView.as_view(template_name='app/passwordchange.html',form_class=MyPasswordChangeForm,success_url='/passwordchnagedone/'), name='passwordchange'),
+    path('passwordchange/',auth_views.PasswordChangeView.as_view(template_name='app/passwordchange.html',form_class=MyPasswordChangeForm,success_url='/passwordchnagedone/'), name='changepassword'),
     path('passwordchnagedone/',auth_views.PasswordChangeDoneView.as_view(template_name='app/passwordchnagedone.html'),name='passwordchangedone'),
 
     path('password-reset/',auth_views.PasswordResetView.as_view(template_name='app/password_reset.html',form_class=MyPasswordResetForm),name='password_reset'),
@@ -40,8 +41,9 @@ urlpatterns = [
 
     path('registration/',views.CustomerRegistrationView.as_view(),name="customerregistration"),
     path('checkout/', views.checkout, name='checkout'),
+    path('search/', views.search, name='search'),
     path('paymentdone/', views.payment_done, name='paymentdone'),
-    path('cancel/', views.cancel, name='cancel'),
+    path('cancel/<int:pk>/', views.cancel, name='cancel_order'),
 ]
 if settings.DEBUG:
      urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

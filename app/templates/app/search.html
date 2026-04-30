@@ -1,0 +1,93 @@
+{% extends 'app/base.html' %}
+{% load static %}
+{% block title %}Search Results{% endblock title %}
+
+{% block main-content %}
+<div class="container py-5">
+  <div class="mb-5">
+    <h2 class="fw-800 mb-1" style="letter-spacing: -1.5px;">
+      {% if query %}
+        Search Results for "{{query}}"
+      {% else %}
+        All Products
+      {% endif %}
+    </h2>
+    <p class="text-secondary small">
+      {% if products %}
+        Showing {{products|length}} items found for your search
+      {% else %}
+        No items found matching your criteria
+      {% endif %}
+    </p>
+  </div>
+
+  {% if products %}
+    <div class="row g-4">
+      {% for p in products %}
+      <div class="col-md-3">
+        <div class="modern-card">
+          <div class="card-tag">{{p.get_category_display}}</div>
+          <a href="{% url 'product-detail' p.id %}" class="text-decoration-none">
+            <div class="bg-light rounded-4 p-3 mb-3 text-center" style="height: 200px;">
+              <img src="{{p.product_image.url}}" class="h-100 object-fit-contain" alt="{{p.title}}">
+            </div>
+            <h6 class="fw-bold text-dark mb-1 text-truncate">{{p.title}}</h6>
+            <p class="text-secondary small mb-3 text-truncate">{{p.description}}</p>
+            <div class="d-flex justify-content-between align-items-center">
+              <span class="price-tag">₹{{p.discounted_price}}</span>
+              <div class="btn btn-sm btn-primary rounded-circle p-2 shadow-sm">
+                <i class="fas fa-plus"></i>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="text-center py-5">
+      <div class="bg-light d-inline-flex align-items-center justify-content-center rounded-circle mb-4" style="width: 100px; height: 100px;">
+        <i class="fas fa-search fa-3x text-muted opacity-50"></i>
+      </div>
+      <h3 class="fw-bold mb-2">No Results Found</h3>
+      <p class="text-secondary mb-4">Try searching with different keywords or check for typos.</p>
+      <a href="/" class="btn btn-primary rounded-pill px-5 py-3 fw-bold">Back to Home</a>
+    </div>
+    
+    <!-- Suggestions or Popular items can go here -->
+    <div class="mt-5 pt-5 border-top">
+       <h4 class="fw-bold mb-4">Popular Categories</h4>
+       <div class="row g-3">
+         <div class="col-md-4">
+           <a href="{% url 'mobile' %}" class="card glass text-center p-4 text-decoration-none text-dark hover-lift">
+             <i class="fas fa-mobile-alt fa-2x mb-2 text-primary"></i>
+             <h6 class="fw-bold mb-0">Mobiles</h6>
+           </a>
+         </div>
+         <div class="col-md-4">
+           <a href="{% url 'category' 'L' %}" class="card glass text-center p-4 text-decoration-none text-dark hover-lift">
+             <i class="fas fa-laptop fa-2x mb-2 text-primary"></i>
+             <h6 class="fw-bold mb-0">Laptops</h6>
+           </a>
+         </div>
+         <div class="col-md-4">
+           <a href="{% url 'category' 'TW' %}" class="card glass text-center p-4 text-decoration-none text-dark hover-lift">
+             <i class="fas fa-tshirt fa-2x mb-2 text-primary"></i>
+             <h6 class="fw-bold mb-0">Fashion</h6>
+           </a>
+         </div>
+       </div>
+    </div>
+  {% endif %}
+</div>
+
+<style>
+  .hover-lift {
+    transition: all 0.3s ease;
+  }
+  .hover-lift:hover {
+    transform: translateY(-5px);
+    border-color: var(--primary-color) !important;
+  }
+</style>
+{% endblock main-content %}
