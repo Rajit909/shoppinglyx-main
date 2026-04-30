@@ -1,0 +1,81 @@
+{% extends 'app/base.html' %}
+{% load static %}
+{% block title %}{{category_name}}{% endblock title %}
+{% block main-content %}
+<div class="container py-5">
+ <div class="row g-5">
+  <!-- Sidebar Filters -->
+  <div class="col-sm-3">
+   <div class="card border-0 shadow-sm rounded-4 overflow-hidden mb-4">
+    <div class="card-body p-4">
+      <h5 class="fw-bold mb-4">Filters</h5>
+      
+      <div class="mb-4">
+        <h6 class="fw-bold small text-uppercase text-secondary mb-3">Filter by Type</h6>
+        <div class="list-group list-group-flush gap-2">
+          <a href="?type=all" class="list-group-item list-group-item-action border-0 rounded-3 px-3 py-2 small fw-bold text-primary bg-light">All {{category_name}}</a>
+          {% for brand in brands %}
+          <a href="?brand={{brand}}" class="list-group-item list-group-item-action border-0 rounded-3 px-3 py-2 small">{{brand}}</a>
+          {% endfor %}
+        </div>
+      </div>
+      
+      <div class="mb-4">
+        <h6 class="fw-bold small text-uppercase text-secondary mb-3">Price Range</h6>
+        <div class="list-group list-group-flush gap-2">
+          <a href="?price=below" class="list-group-item list-group-item-action border-0 rounded-3 px-3 py-2 small">Below 10,000</a>
+          <a href="?price=above" class="list-group-item list-group-item-action border-0 rounded-3 px-3 py-2 small">Above 10,000</a>
+        </div>
+      </div>
+    </div>
+   </div>
+  </div>
+
+  <!-- Product List -->
+  <div class="col-sm-9">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <h3 class="fw-bold mb-0">{{category_name}} Collection</h3>
+      <div class="text-secondary small">{{products|length}} products found</div>
+    </div>
+    
+    <div class="row g-4">
+     {% for p in products %}
+     <div class="col-md-4">
+       <div class="card h-100 border-0 shadow-premium rounded-4 overflow-hidden product-card-hover">
+         <div class="position-relative p-4 text-center bg-white" style="height: 250px;">
+           <img src="{{p.product_image.url}}" class="h-100 w-auto mx-auto object-fit-contain" alt="{{p.title}}">
+           {% if p.discounted_price < p.selling_price %}
+           <div class="position-absolute top-0 end-0 p-3">
+             <span class="badge bg-danger rounded-pill">Sale</span>
+           </div>
+           {% endif %}
+         </div>
+         <div class="card-body p-4 bg-light border-top">
+           <small class="text-secondary fw-bold text-uppercase" style="font-size: 0.65rem;">{{p.brand}}</small>
+           <h6 class="card-title fw-bold text-truncate mb-2">{{p.title}}</h6>
+           <div class="mb-3 text-warning small">
+             <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+           </div>
+           <div class="d-flex align-items-center justify-content-between">
+             <div>
+               <span class="h5 fw-bold text-primary mb-0">Rs. {{p.discounted_price}}</span>
+             </div>
+             <a href="{% url 'product-detail' p.id %}" class="btn btn-primary rounded-circle shadow-sm" style="width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;">
+               <i class="fas fa-chevron-right"></i>
+             </a>
+           </div>
+         </div>
+       </div>
+     </div>
+     {% empty %}
+     <div class="col-12 text-center py-5">
+       <div class="display-1 text-light mb-4"><i class="fas fa-search"></i></div>
+       <h4 class="fw-bold">No Products Found</h4>
+       <p class="text-secondary">Try adjusting your filters.</p>
+     </div>
+     {% endfor %}
+    </div>
+  </div>
+ </div>
+</div>
+{% endblock main-content %}

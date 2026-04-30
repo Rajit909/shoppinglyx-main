@@ -2,34 +2,69 @@
 {% load static %}
 {% block title %}Profile{% endblock title %}
 {% block main-content %}
-<div class="container my-5">
- <div class="row">
-  <h3>Welcome {{request.user.username|capfirst}} </h3>
-  <div class="col-sm-2 border-end">
-   <ul class="list-unstyled">
-    <li class="d-grid"><a href="{% url 'profile' %}" class="btn ">Profile</a></li>
-    <li class="d-grid"><a href="{% url 'address' %}" class="btn {{active}} ">Address</a></li>
-   </ul>
-  </div>
-  <div class="col-sm-8 offset-sm-1">
-   <form action="" method="post" novalidate>
-    {% csrf_token %}
-    {% for fm in form %}
-    <div class="form-group" col-lg-6 mb-3>
-      {{fm.label_tag}} {{fm}} <small class="text-danger">{{fm.errors|striptags}}</small><br>
+<div class="container py-5">
+  <div class="row g-4">
+    <!-- Sidebar Navigation -->
+    <div class="col-lg-3">
+      <div class="card border rounded-0 bg-white mb-4 shadow-sm">
+        <div class="card-body p-4 text-center border-bottom bg-light">
+          <div class="rounded-circle bg-white border d-inline-flex align-items-center justify-content-center mb-3 shadow-sm" style="width: 70px; height: 70px;">
+            <i class="fas fa-user-circle text-secondary fs-1"></i>
+          </div>
+          <h6 class="fw-bold mb-0 text-dark">{{request.user.username|capfirst}}</h6>
+          <small class="text-secondary">{{request.user.email}}</small>
+        </div>
+        <div class="list-group list-group-flush">
+          <a href="{% url 'profile' %}" class="list-group-item list-group-item-action border-0 py-3 d-flex align-items-center active" style="background-color: #f0f2f2; color: #111; border-left: 4px solid #e47911 !important;">
+            <i class="fas fa-user-shield me-3 text-warning"></i> Personal Information
+          </a>
+          <a href="{% url 'address' %}" class="list-group-item list-group-item-action border-0 py-3 d-flex align-items-center">
+            <i class="fas fa-map-marked-alt me-3 text-secondary"></i> Manage Addresses
+          </a>
+          <a href="{% url 'orders' %}" class="list-group-item list-group-item-action border-0 py-3 d-flex align-items-center">
+            <i class="fas fa-box-open me-3 text-secondary"></i> Your Orders
+          </a>
+          <a href="{% url 'changepassword' %}" class="list-group-item list-group-item-action border-0 py-3 d-flex align-items-center">
+            <i class="fas fa-key me-3 text-secondary"></i> Security Settings
+          </a>
+        </div>
+      </div>
+    </div>
 
+    <!-- Profile Form -->
+    <div class="col-lg-9">
+      <div class="card border rounded-0 bg-white shadow-sm">
+        <div class="card-body p-4 p-md-5">
+          <h3 class="fw-bold mb-1">Personal Information</h3>
+          <p class="text-secondary small mb-4">Manage your name, email, and security settings</p>
+          
+          <form action="" method="post" novalidate class="mt-4">
+           {% csrf_token %}
+           <div class="row g-4">
+             {% for fm in form %}
+             <div class="col-md-6">
+               <label class="form-label fw-bold small text-dark">{{fm.label}}</label>
+               {{fm}} 
+               {% if fm.errors %}
+                 <div class="text-danger small mt-1">{{fm.errors|striptags}}</div>
+               {% endif %}
+             </div>
+             {% endfor %}
+           </div>
+           
+           <div class="mt-5 border-top pt-4">
+             <button type="submit" class="btn btn-warning rounded-pill px-5 py-2 fw-bold shadow-sm" style="background: #ffd814; border-color: #fcd200; color: #0f1111;">Save Changes</button>
+           </div>
+           
+           {% if messages %}
+            {% for message in messages %}
+             <p {% if message.tags %} class="alert alert-{{message.tags}} mb-5" {% endif %}>{{message}}</p>
+            {% endfor %}
+           {% endif %}
+          </form>
+        </div>
+      </div>
     </div>
-    {% endfor %}
-    <div class="col-12 mt-3">
-      <button class="btn btn-primary mb-3">Submit</button>
-    </div>
-   </form>
-   {% if messages %}
-   {% for message in messages %}
-   <p {% if message.tags %} class="alert alert-{{message.tags}} mb-5" {% endif %}></p>
-   {% endfor %}
-   {% endif %}
   </div>
- </div>
 </div>
 {% endblock main-content %}

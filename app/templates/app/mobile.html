@@ -1,15 +1,106 @@
 {% extends 'app/base.html' %}
 {% load static %}
-{% block title %}Buy Now{% endblock title %}
+{% block title %}Mobiles{% endblock title %}
 {% block main-content %}
-<div class="container my-5">
- <div class="row">
+<div class="container py-5">
+ <div class="row g-5">
+  <!-- Sidebar Filters -->
   <div class="col-sm-3">
-   Side Bar for Mobile filter
+   <div class="card border-0 shadow-sm rounded-4 overflow-hidden mb-4">
+    <div class="card-body p-4">
+      <h5 class="fw-bold mb-4">Filters</h5>
+      
+      <div class="mb-4">
+        <h6 class="fw-bold small text-uppercase text-secondary mb-3">Brands</h6>
+        <div class="list-group list-group-flush gap-2">
+          <a href="{% url 'mobile' %}" class="list-group-item list-group-item-action border-0 rounded-3 px-3 py-2 small fw-bold text-primary bg-light">All Brands</a>
+          <a href="{% url 'mobiledata' 'Samsung' %}" class="list-group-item list-group-item-action border-0 rounded-3 px-3 py-2 small">Samsung</a>
+          <a href="{% url 'mobiledata' 'Apple' %}" class="list-group-item list-group-item-action border-0 rounded-3 px-3 py-2 small">Apple</a>
+          <a href="{% url 'mobiledata' 'Redmi' %}" class="list-group-item list-group-item-action border-0 rounded-3 px-3 py-2 small">Redmi</a>
+        </div>
+      </div>
+      
+      <div class="mb-4">
+        <h6 class="fw-bold small text-uppercase text-secondary mb-3">Price Range</h6>
+        <div class="list-group list-group-flush gap-2">
+          <a href="{% url 'mobiledata' 'below' %}" class="list-group-item list-group-item-action border-0 rounded-3 px-3 py-2 small">Below 10,000</a>
+          <a href="{% url 'mobiledata' 'above' %}" class="list-group-item list-group-item-action border-0 rounded-3 px-3 py-2 small">Above 10,000</a>
+        </div>
+      </div>
+    </div>
+   </div>
+   
+   <div class="card border-0 shadow-sm rounded-4 bg-primary text-white p-4">
+     <h6 class="fw-bold mb-2">New Arrivals</h6>
+     <p class="small opacity-75 mb-3">Check out the latest 5G smartphones from top brands.</p>
+     <a href="#" class="btn btn-light btn-sm rounded-pill px-3 fw-bold text-primary">Explore</a>
+   </div>
   </div>
-  <div class="col-sm-8 offset-sm-1">
-   Mobile Product List
+
+  <!-- Product List -->
+  <div class="col-sm-9">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <h3 class="fw-bold mb-0">Smartphone Collection</h3>
+      <div class="dropdown">
+        <button class="btn btn-white border shadow-sm dropdown-toggle rounded-pill px-3" type="button" data-bs-toggle="dropdown">
+          Sort by: Featured
+        </button>
+        <ul class="dropdown-menu border-0 shadow-premium">
+          <li><a class="dropdown-item small" href="#">Price: Low to High</a></li>
+          <li><a class="dropdown-item small" href="#">Price: High to Low</a></li>
+          <li><a class="dropdown-item small" href="#">Newest First</a></li>
+        </ul>
+      </div>
+    </div>
+    
+    <div class="row g-4">
+     {% for m in mobiles %}
+     <div class="col-md-4">
+       <div class="card h-100 border-0 shadow-premium rounded-4 overflow-hidden product-card-hover">
+         <div class="position-relative p-4 text-center bg-white" style="height: 250px;">
+           <img src="{{m.product_image.url}}" class="h-100 w-auto mx-auto object-fit-contain" alt="{{m.title}}">
+           <div class="position-absolute top-0 start-0 p-3">
+             <span class="badge bg-success rounded-pill">In Stock</span>
+           </div>
+         </div>
+         <div class="card-body p-4 bg-light border-top">
+           <small class="text-secondary fw-bold text-uppercase" style="font-size: 0.65rem;">{{m.brand}}</small>
+           <h6 class="card-title fw-bold text-truncate mb-2">{{m.title}}</h6>
+           <div class="mb-3 text-warning small">
+             <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+             <span class="text-secondary small ms-1">(89)</span>
+           </div>
+           <div class="d-flex align-items-center justify-content-between">
+             <div>
+               <span class="h5 fw-bold text-primary mb-0">Rs. {{m.discounted_price}}</span>
+               <div class="text-secondary text-decoration-line-through small" style="font-size: 0.75rem;">Rs. {{m.selling_price}}</div>
+             </div>
+             <a href="{% url 'product-detail' m.id %}" class="btn btn-primary rounded-circle shadow-sm" style="width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;">
+               <i class="fas fa-chevron-right"></i>
+             </a>
+           </div>
+         </div>
+       </div>
+     </div>
+     {% empty %}
+     <div class="col-12 text-center py-5">
+       <div class="display-1 text-light mb-4"><i class="fas fa-search"></i></div>
+       <h4 class="fw-bold">No Mobiles Found</h4>
+       <p class="text-secondary">Try adjusting your filters to find what you're looking for.</p>
+       <a href="{% url 'mobile' %}" class="btn btn-primary rounded-pill px-4 mt-3">Clear All Filters</a>
+     </div>
+     {% endfor %}
+    </div>
   </div>
  </div>
 </div>
+
+<style>
+  .product-card-hover {
+    transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+  }
+  .product-card-hover:hover {
+    transform: translateY(-8px);
+  }
+</style>
 {% endblock main-content %}

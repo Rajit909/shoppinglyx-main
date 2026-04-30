@@ -1,48 +1,148 @@
 {% extends 'app/base.html' %}
 {% load static %}
-{% block title %}Buy Now{% endblock title %}
+{% block title %}Checkout{% endblock title %}
 {% block main-content %}
-<div class="container">
- <div class="row mt-5">
-  <div class="col-sm-6">
-    <h4>Order Summary</h4>
-    <hr>
-    {% for item in cart_items %}
-      <div class="card mb-2">
-        <div class="card-body">
-          <h5>Product: {{item.product.title}}</h5>
-          <p>Quantity: {{item.quantity}}</p>
-          <p class="fw-bold">Price: {{item.total_cost}} </p>
+<div class="container py-5">
+  <div class="row g-4">
+    <!-- Left Column: Shipping & Payment -->
+    <div class="col-lg-8">
+      <div class="card border rounded-0 bg-white shadow-sm mb-4">
+        <div class="card-body p-4 p-md-5">
+          <h3 class="fw-bold mb-4">1. Select a delivery address</h3>
+          <form action="/paymentdone" id="checkout-form">
+            <div class="row g-3 mb-4">
+              {% for ad in add %}
+              <div class="col-12">
+                <label class="w-100 cursor-pointer">
+                  <div class="card border rounded-2 address-selection-card {% if forloop.first %}selected{% endif %}">
+                    <div class="card-body p-4">
+                      <div class="form-check">
+                        <input class="form-check-input me-3" type="radio" name="custid" id="custadd{{forloop.counter}}" value="{{ad.id}}" {% if forloop.first %}checked{% endif %}>
+                        <div class="form-check-label w-100">
+                          <span class="d-block fw-bold mb-1">{{ad.name}}</span>
+                          <span class="text-dark d-block small opacity-75">{{ad.locality}}, {{ad.city}}, {{ad.state}} - {{ad.zipcode}}</span>
+                          <a href="#" class="text-primary text-decoration-none small fw-500 mt-2 d-inline-block">Edit address</a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </label>
+              </div>
+              {% endfor %}
+            </div>
+            <a href="{% url 'profile' %}" class="btn btn-light border rounded-pill px-4 small fw-500 shadow-sm"><i class="fas fa-plus me-2"></i> Add a new address</a>
+          </form>
+          
+          <hr class="my-5 opacity-25">
+          
+          <h3 class="fw-bold mb-4">2. Select a payment method</h3>
+          <div class="card border rounded-0 bg-light p-4 mb-3 border-warning" style="background-color: #fcf5ee !important;">
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="payment_mode" id="cod" checked>
+              <label class="form-check-label ms-2" for="cod">
+                <span class="d-block fw-bold">Cash on Delivery (COD)</span>
+                <span class="text-secondary small">Pay when you receive your items.</span>
+              </label>
+            </div>
+          </div>
+          <div class="card border rounded-0 p-4 mb-3 opacity-50 bg-light">
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="payment_mode" id="online" disabled>
+              <label class="form-check-label ms-2" for="online">
+                <span class="d-block fw-bold">Online Payment</span>
+                <span class="text-secondary small">Credit Card, Debit Card, UPI (Coming Soon)</span>
+              </label>
+            </div>
+          </div>
         </div>
       </div>
-      {% endfor %}
-      <p class="fw-bold">Total Cost + Rs. 70 = {{totalamount}} </p>
-    <small>Term and Condition: Lorem ipsum dolor sit amet consectetur adipisicing elit. Mollitia, ullam saepe! Iure optio repellat dolor velit, minus rem. Facilis cumque neque numquam laboriosam, accusantium adipisci nisi nihil in et quis?</small>
-  </div>
-  <div class="col-sm-4 offset-sm-1">
-    <h4>Select Shipping Address</h4>
-    <hr>
-    <form action="/paymentdone">
-    {% for ad in add %}
 
-
-      <div class="card">
-        <div class="card-body">
-        <h5> {{ad.name}} </h5>
-        <p> {{ad.locality}}, {{ad.city}},{{ad.state}},{{ad.zipcode}} </p>
+      <!-- Review Items Section -->
+      <div class="card border rounded-0 bg-white shadow-sm">
+        <div class="card-body p-4 p-md-5">
+          <h3 class="fw-bold mb-4">3. Review items and shipping</h3>
+          <div class="border rounded p-3">
+            {% for item in cart_items %}
+            <div class="d-flex align-items-center gap-4 mb-4 {% if not forloop.last %}border-bottom pb-4{% endif %}">
+              <div class="bg-light p-2 rounded" style="width: 80px; height: 80px;">
+                <img src="{{item.product.product_image.url}}" class="w-100 h-100 object-fit-contain">
+              </div>
+              <div class="flex-grow-1">
+                <h6 class="fw-bold mb-1">{{item.product.title}}</h6>
+                <div class="text-success small fw-bold mb-1">In Stock</div>
+                <div class="small text-secondary">Quantity: {{item.quantity}}</div>
+              </div>
+              <div class="text-end">
+                <span class="fw-bold text-dark">₹{{item.total_cost}}</span>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
         </div>
       </div>
-        <div class="form-check mt-2 mb-5">
-          <input class="form-check-input" type="radio" name="custid" id="custadd{{forloop.counter}}" value="{{ad.id}}">
-          <label class="form-check-label fw-bold" for="custadd{{forloop.counter}}">
-            Address: {{forloop.counter}} </label>
+    </div>
+
+    <!-- Right Column: Order Summary -->
+    <div class="col-lg-4">
+      <div class="card border rounded-0 bg-white shadow-sm sticky-top" style="top: 100px;">
+        <div class="card-body p-4">
+          <button type="submit" form="checkout-form" class="btn btn-warning rounded-pill py-2 w-100 fw-bold shadow-sm mb-3" style="background: #ffd814; border-color: #fcd200; color: #0f1111;">Place your order</button>
+          <p class="text-center small text-secondary mb-4">By placing your order, you agree to ShopCart's privacy notice and conditions of use.</p>
+          
+          <hr class="opacity-25">
+          
+          <h5 class="fw-bold mb-3">Order Summary</h5>
+          <div class="d-flex justify-content-between small mb-2">
+            <span class="text-secondary">Items:</span>
+            <span>₹{{amount}}</span>
+          </div>
+          <div class="d-flex justify-content-between small mb-2 border-bottom pb-2">
+            <span class="text-secondary">Delivery:</span>
+            <span class="text-success">₹70.00</span>
+          </div>
+          
+          <div class="d-flex justify-content-between h4 fw-bold text-danger mt-3 mb-4">
+            <span>Order Total:</span>
+            <span>₹{{totalamount}}</span>
+          </div>
+          
+          <div class="bg-light border-top p-3 mx-n4 mb-n4">
+             <a href="#" class="text-decoration-none small d-flex align-items-center justify-content-between">
+               <span>How are delivery costs calculated?</span>
+               <i class="fas fa-chevron-right fs-xs"></i>
+             </a>
+          </div>
         </div>
-        {% endfor %}
-        <div class="text-end">
-          <button type="submit" class="btn btn-warning mt-3 px-5 fw-bold">Continue</button>
-        </div>
-      </form>
+      </div>
     </div>
   </div>
 </div>
+
+<style>
+  .cursor-pointer { cursor: pointer; }
+  .address-selection-card {
+    border: 1px solid #ddd !important;
+    transition: all 0.2s ease;
+  }
+  .address-selection-card:hover {
+    background-color: #fcfcfc;
+    border-color: #adb5bd !important;
+  }
+  .address-selection-card.selected {
+    background-color: #fcf5ee !important;
+    border-color: #fbd200 !important;
+  }
+  .fw-500 { font-weight: 500; }
+  .fs-xs { font-size: 0.7rem; }
+</style>
+
+<script>
+  // Simple JS to toggle card background on selection
+  document.querySelectorAll('input[name="custid"]').forEach(radio => {
+    radio.addEventListener('change', function() {
+      document.querySelectorAll('.address-selection-card').forEach(card => card.classList.remove('selected'));
+      this.closest('.address-selection-card').classList.add('selected');
+    });
+  });
+</script>
 {% endblock main-content %}
