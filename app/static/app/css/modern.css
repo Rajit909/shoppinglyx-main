@@ -1,0 +1,392 @@
+:root {
+    /* Modern Unique Palette */
+    --primary-color: #6366f1; /* Indigo */
+    --primary-dark: #4f46e5;
+    --secondary-color: #06b6d4; /* Cyan */
+    --accent-color: #f43f5e; /* Rose */
+    --bg-light: #f1f5f9;
+    --dark-color: #0f172a;
+    --text-color: #1e293b;
+    --text-secondary: #64748b;
+    --white: #ffffff;
+    
+    /* Glassmorphism */
+    --glass-bg: rgba(255, 255, 255, 0.85);
+    --glass-border: rgba(255, 255, 255, 0.3);
+    --glass-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.1);
+    
+    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+    --shadow-lg: 0 20px 25px -5px rgb(0 0 0 / 0.1);
+    --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg-light);
+    color: var(--text-color);
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+/* Glassmorphism Class */
+.glass {
+    background: var(--glass-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--glass-border);
+    box-shadow: var(--glass-shadow);
+}
+
+/* Navbar */
+.navbar {
+    background: var(--dark-color) !important;
+    padding: 0.75rem 0;
+    transition: var(--transition);
+}
+
+.navbar.sticky-top.glass {
+    background: var(--glass-bg) !important;
+}
+
+.navbar-brand {
+    font-weight: 800;
+    font-size: 1.6rem;
+    letter-spacing: -0.5px;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.nav-link {
+    font-weight: 600;
+    color: var(--white) !important;
+    font-size: 0.95rem;
+    padding: 0.5rem 1rem !important;
+    transition: var(--transition);
+}
+
+.nav-link:hover {
+    color: var(--primary-color) !important;
+    transform: translateY(-2px);
+}
+
+/* Modern Search Bar */
+.navbar .input-group {
+    max-width: 650px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 4px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: var(--transition);
+}
+
+.navbar .form-control {
+    border-radius: 4px 0 0 4px;
+    border: none;
+}
+
+.navbar .btn-primary {
+    background-color: var(--primary-color);
+    border: none;
+    border-radius: 0 4px 4px 0;
+    color: var(--dark-color);
+    padding: 0 1.5rem;
+}
+
+.navbar .btn-primary:hover {
+    background-color: var(--primary-dark);
+}
+
+/* Buttons */
+.btn-primary {
+    background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+    border: none;
+    color: var(--white);
+    padding: 0.6rem 1.5rem;
+    transition: var(--transition);
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px -10px rgba(99, 102, 241, 0.5);
+    color: var(--white);
+}
+
+.btn-outline-dark {
+    border: 2px solid var(--dark-color);
+    color: var(--dark-color);
+    transition: var(--transition);
+}
+
+.btn-outline-dark:hover {
+    background: var(--dark-color);
+    color: var(--white);
+    transform: translateY(-2px);
+}
+
+/* Bento Grid & Modern Cards */
+.bento-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(2, 300px);
+    gap: 1.5rem;
+}
+
+.bento-item {
+    position: relative;
+    border-radius: 24px;
+    overflow: hidden;
+    background: var(--white);
+    box-shadow: var(--shadow-md);
+    transition: var(--transition);
+}
+
+.bento-item:hover {
+    transform: scale(1.02);
+    box-shadow: var(--shadow-lg);
+}
+
+.modern-card {
+    background: var(--white);
+    border-radius: 20px;
+    border: 1px solid rgba(0,0,0,0.05);
+    padding: 1.5rem;
+    transition: var(--transition);
+    position: relative;
+    overflow: hidden;
+    height: 100%;
+}
+
+.modern-card:hover {
+    border-color: var(--primary-color);
+    box-shadow: 0 20px 40px -10px rgba(99, 102, 241, 0.1);
+}
+
+.card-tag {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    padding: 4px 12px;
+    border-radius: 100px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    background: var(--primary-color);
+    color: var(--white);
+    z-index: 2;
+}
+
+.modern-card img {
+    border-radius: 12px;
+    transition: var(--transition);
+}
+
+.modern-card:hover img {
+    transform: scale(1.05);
+}
+
+.price-tag {
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: var(--dark-color);
+}
+
+/* Product Section */
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 2rem;
+    padding: 2rem 0;
+}
+
+/* Footer */
+footer {
+    background-color: var(--dark-color) !important;
+    color: var(--white);
+    padding: 3rem 0 1rem;
+    margin-top: 5rem;
+}
+
+footer small {
+    opacity: 0.7;
+}
+
+/* Hero Slider */
+.carousel-item img {
+    border-radius: 15px;
+    object-fit: cover;
+}
+
+/* Forms */
+.form-control {
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    border: 1px solid #e2e8f0;
+}
+
+.form-control:focus {
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    border-color: var(--primary-color);
+}
+
+/* Custom Utilities */
+.text-primary { color: var(--primary-color) !important; }
+/* Owl Carousel Customization */
+.owl-nav {
+    position: absolute;
+    top: 50%;
+    width: 100%;
+    transform: translateY(-50%);
+    display: flex;
+    justify-content: space-between;
+    pointer-events: none;
+}
+
+.owl-nav button {
+    background: var(--white) !important;
+    width: 40px;
+    height: 40px;
+    border-radius: 50% !important;
+    box-shadow: var(--shadow-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: all;
+    transition: var(--transition);
+    color: var(--dark-color) !important;
+}
+
+.owl-nav button:hover {
+    background: var(--primary-color) !important;
+    color: var(--white) !important;
+    transform: scale(1.1);
+}
+
+.owl-prev { margin-left: -20px; }
+.owl-next { margin-right: -20px; }
+
+.carousel-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 300px;
+    background: linear-gradient(to bottom, rgba(234, 237, 237, 0) 0%, rgba(234, 237, 237, 1) 100%);
+    pointer-events: none;
+}
+
+.section-container {
+    background: var(--white);
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid #ddd;
+}
+
+.product-carousel .card {
+    border: none;
+    box-shadow: none;
+    background: transparent;
+}
+
+.product-carousel .card:hover {
+    transform: none;
+}
+
+.amazon-grid-card {
+    background-color: var(--white);
+}
+
+.amazon-grid-card h5 {
+    color: var(--text-color);
+}
+
+.fw-500 { font-weight: 500; }
+.fw-600 { font-weight: 600; }
+.object-fit-contain { object-fit: contain; }
+.object-fit-cover { object-fit: cover; }
+
+/* Professional Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
+}
+
+/* Button Refinement */
+.btn:focus {
+    box-shadow: 0 0 0 3px rgba(254, 189, 105, 0.5) !important;
+}
+
+.shadow-premium {
+    box-shadow: var(--shadow-lg) !important;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+/* Modern Floating Back to Top */
+.back-to-top {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 50px;
+    height: 50px;
+    background: var(--primary-color);
+    color: var(--white);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: var(--transition);
+    box-shadow: var(--shadow-lg);
+}
+
+.back-to-top.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.back-to-top:hover {
+    background: var(--primary-dark);
+    color: var(--white);
+    transform: translateY(-5px);
+}
+
+/* Modern Product Zoom */
+.zoom-container {
+    position: relative;
+    overflow: hidden;
+    cursor: crosshair;
+    border-radius: 12px;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.zoom-image {
+    transition: transform 0.1s ease-out;
+    transform-origin: center center;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.zoom-container:hover .zoom-image {
+    transform: scale(2.5);
+}

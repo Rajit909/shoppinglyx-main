@@ -2,36 +2,44 @@
 {% load static %}
 {% block title %}Customer Registration{% endblock title %}
 {% block main-content %}
-<div class="container">
- <div class="row my-3">
-  <div class="col-sm-6 offset-sm-3">
-   <h3>Customer Registration</h3>
-   <hr>
-
-   <form action="" method="post" novalidate class="shadow p-5">
-      {% csrf_token %}
-     {% if messages %}
-     {% for message in messages %}
-     <p {% if message.tags %} class="alert alert-{{message.tags}} mb-5" {% endif %}>{{message}}</p>
-     {% endfor %}
-     {% endif %}
-      
-      {% for fm in form%}
-   <div class="form-group mb-3">
-      {{fm.label_tag}} {{fm}} <small class="text-danger">{{fm.errors|striptags}}</small>
+<div class="container py-5">
+ <div class="row">
+  <div class="col-sm-6 mx-auto">
+   <div class="card border-0 shadow-premium rounded-4 overflow-hidden">
+    <div class="row g-0">
+     <div class="col-md-12 p-5">
+      <div class="text-center mb-4">
+       <h3 class="fw-bold">Create Account</h3>
+       <p class="text-secondary">Join ShopCart for a better shopping experience</p>
+      </div>
+      <form action="" method="post" novalidate>
+       {% csrf_token %}
+       {% for fm in form %}
+       <div class="mb-3">
+           {{fm.label_tag}} 
+           {{fm}} 
+           {% if fm.errors %}
+             <div class="text-danger small mt-1">{{fm.errors|striptags}}</div>
+           {% endif %}
+       </div>
+       {% endfor %}
+       
+       <button type="submit" class="btn btn-primary w-100 py-3 rounded-3 mb-4 mt-3">Register Now</button>
+       
+       <div class="text-center">
+         <span class="small text-secondary">Already have an account? </span>
+         <a href="{% url 'login' %}" class="small text-primary fw-bold text-decoration-none">Sign In</a>
+       </div>
+       
+       {% if form.non_field_errors %}
+         {% for error in form.non_field_errors %}
+           <div class="alert alert-danger mt-4 rounded-3 border-0">{{error}}</div>
+         {% endfor %}  
+       {% endif %} 
+      </form>
+     </div>
+    </div>
    </div>
-   {% endfor %}
-   <input type="submit" value="Submit" class="btn btn-primary">
-   <br>
-   <div class="text-center text-primary fw-bold">
-      <small>Existing User</small><a href="{% url 'login' %}" class="text-danger">Login Now</a>
-   </div>
-   {% if form.non_field_errors %}
-   {% for error in form.non_field_errors %}
-   <p class="alert-danger my-3">{{error}}</p>
-   {% endfor %}
-   {% endif %}
-   </form>
   </div>
  </div>
 </div>

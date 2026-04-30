@@ -1,33 +1,100 @@
 {% extends 'app/base.html' %}
 {% load static %}
-{% block title %}Address{% endblock title %}
+{% block title %}Addresses{% endblock title %}
 {% block main-content %}
-<div class="container my-5">
- <div class="row">
- <h3>Welcome {{request.user.username|capfirst}}</h3>
-  <div class="col-sm-2 border-end">
-   <ul class="list-unstyled">
-    <li class="d-grid"><a href="{% url 'profile' %}" class="btn btn-primary">Profile</a></li>
-    <li class="d-grid"><a href="{% url 'address' %}" class="btn">Address</a></li>
-   </ul>
-  </div>
-  <div class="col-sm-9 offset-sm-1">
-   <div class="row">
-       {% for ad in add %}
-    <div class="col-sm-6">
-     <div class="card">
-      <div class="card-body">
-       <h3>Address 1</h3>
-       <p>Name: {{ ad.name}}</p>
-       <p>Locality : {{ad.locality}} </p>
-       <p>City: {{ad.city}} </p>
-       <p>State: {{ad.state}}</p>
-       <p>Pin Code: {{ad.zipcode}}</p>
+<div class="container py-5">
+  <div class="row g-4">
+    <!-- Sidebar Navigation -->
+    <div class="col-lg-3">
+      <div class="card border rounded-0 bg-white mb-4 shadow-sm">
+        <div class="card-body p-4 text-center border-bottom bg-light">
+          <div class="rounded-circle bg-white border d-inline-flex align-items-center justify-content-center mb-3 shadow-sm" style="width: 70px; height: 70px;">
+            <i class="fas fa-user-circle text-secondary fs-1"></i>
+          </div>
+          <h6 class="fw-bold mb-0 text-dark">{{request.user.username|capfirst}}</h6>
+          <small class="text-secondary">{{request.user.email}}</small>
+        </div>
+        <div class="list-group list-group-flush">
+          <a href="{% url 'profile' %}" class="list-group-item list-group-item-action border-0 py-3 d-flex align-items-center">
+            <i class="fas fa-user-shield me-3 text-secondary"></i> Personal Information
+          </a>
+          <a href="{% url 'address' %}" class="list-group-item list-group-item-action border-0 py-3 d-flex align-items-center active" style="background-color: #f0f2f2; color: #111; border-left: 4px solid #e47911 !important;">
+            <i class="fas fa-map-marked-alt me-3 text-warning"></i> Manage Addresses
+          </a>
+          <a href="{% url 'orders' %}" class="list-group-item list-group-item-action border-0 py-3 d-flex align-items-center">
+            <i class="fas fa-box-open me-3 text-secondary"></i> Your Orders
+          </a>
+          <a href="{% url 'changepassword' %}" class="list-group-item list-group-item-action border-0 py-3 d-flex align-items-center">
+            <i class="fas fa-key me-3 text-secondary"></i> Security Settings
+          </a>
+        </div>
       </div>
-     </div>
     </div>
-{% endfor %}
-   </div>
+
+    <!-- Saved Addresses -->
+    <div class="col-lg-9">
+      <div class="card border rounded-0 bg-white shadow-sm">
+        <div class="card-body p-4 p-md-5">
+          <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+              <h3 class="fw-bold mb-1">Your Addresses</h3>
+              <p class="text-secondary small mb-0">Manage your shipping and billing addresses</p>
+            </div>
+            <a href="{% url 'profile' %}" class="btn btn-warning rounded-pill px-4 fw-bold shadow-sm d-none d-md-block" style="background: #ffd814; border-color: #fcd200; color: #0f1111;">Add Address</a>
+          </div>
+
+          <div class="row g-4 mt-2">
+            <!-- Add New Address Card -->
+            <div class="col-md-6 col-xl-4">
+              <a href="{% url 'profile' %}" class="text-decoration-none h-100">
+                <div class="card h-100 border-dashed border-2 d-flex flex-column align-items-center justify-content-center py-5 text-secondary hover-bg-light" style="border-style: dashed !important; cursor: pointer;">
+                  <i class="fas fa-plus fa-2x mb-3 opacity-50"></i>
+                  <h6 class="fw-bold mb-0">Add Address</h6>
+                </div>
+              </a>
+            </div>
+
+            {% for ad in add %}
+            <div class="col-md-6 col-xl-4">
+              <div class="card h-100 border rounded-2 shadow-sm bg-white">
+                <div class="card-body p-4">
+                  {% if forloop.first %}
+                  <div class="small text-secondary mb-2 opacity-75 fw-500 border-bottom pb-2 mb-3">Default Address</div>
+                  {% endif %}
+                  <h6 class="fw-bold mb-2">{{ad.name}}</h6>
+                  <div class="small text-dark mb-3" style="line-height: 1.6;">
+                    {{ad.locality}}<br>
+                    {{ad.city}}, {{ad.state}} {{ad.zipcode}}<br>
+                    India
+                  </div>
+                  <div class="d-flex gap-2 mt-auto border-top pt-3">
+                    <a href="#" class="text-primary text-decoration-none small fw-500">Edit</a>
+                    <div class="vr mx-2 opacity-25"></div>
+                    <a href="#" class="text-primary text-decoration-none small fw-500">Remove</a>
+                    <div class="vr mx-2 opacity-25"></div>
+                    {% if not forloop.first %}
+                    <a href="#" class="text-primary text-decoration-none small fw-500">Set as Default</a>
+                    {% endif %}
+                  </div>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
+
+<style>
+  .border-dashed {
+    border: 2px dashed #dee2e6 !important;
+  }
+  .hover-bg-light:hover {
+    background-color: #f8f9fa;
+    border-color: #adb5bd !important;
+  }
+  .fw-500 { font-weight: 500; }
+</style>
 {% endblock main-content %}
